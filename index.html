@@ -43,7 +43,7 @@
             }
         }
 
-        .container {
+        /* .container {
             text-align: center;
             background: white;
             padding: 120px 80px;
@@ -51,7 +51,40 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             max-width: 1000px;
             width: 90%;
-        }
+        } */
+         .container {
+    text-align: center;
+    padding: 120px 80px;
+    border-radius: 30px;
+    max-width: 1000px;
+    width: 90%;
+    position: relative;
+    /* initial background */
+    background: url('chou.jpg') center/cover no-repeat;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    transition: background 0.6s ease;
+}
+
+.container::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(255,255,255,0.6);
+    border-radius: 30px;
+    z-index: 1;
+}
+
+.container > * {
+    position: relative;
+    z-index: 2; /* text above overlay */
+}
+
+/* celebration state background */
+.container.celebration-bg {
+    background: url('couple.jpg') center/cover no-repeat;
+    padding: 60px 60px; /* smaller only here */
+}
 
         h1 {
             font-size: 2.5em;
@@ -134,6 +167,46 @@
             border-radius: 50px;
         }
 
+        /* .love-message {
+    font-size: 1.8em;
+    color: #e91e63;
+    line-height: 1.6;
+    text-align: center;
+    margin-bottom: 30px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease, transform 1s ease;
+} */
+ .love-message {
+    font-size: 1.35em; /* reduced so it fits */
+    color: #d81b60;
+    line-height: 1.8;
+    text-align: center;
+    margin: 0 auto;
+    max-width: 850px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    text-shadow: 0 2px 8px rgba(255, 255, 255, 0.7);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+.love-message strong {
+    color: #c2185b;
+}
+
+.love-message em {
+    color: #ad1457;
+    font-style: normal;
+    font-weight: 600;
+}
+
+.celebration.active .love-message {
+    opacity: 1;
+    transform: translateY(0);
+}
+
         .celebration {
             display: none;
         }
@@ -190,12 +263,12 @@
     </style>
 </head>
 <body class="loading">
-    <div class="container">
+    <div class="container" id="mainContainer">
         <div id="question" class="question-section">
             <div class="heart">
-			<img src="teddy-bear-holding-heart.png" alt="Heart" style="width: 170px;">
+			<img src="piyopiyo-baby-chicken.gif" alt="Heart" style="width: 170px;">
 			</div>
-            <h1>Will You Be My Valentine mon BéBé Chou ?</h1>
+            <h1>Will You Be My Valentine Mon BéBé Chou ?</h1>
             <div class="button-container">
                 <button id="yesBtn">Yes! 💕</button>
                 <div id="noPlaceholder" class="no-placeholder" style="background-color: white; color: white;">No</div>
@@ -204,29 +277,57 @@
         </div>
 
         <div id="celebration" class="celebration">
-            <h2>YAYY! I love you 💖</h2>
+            <!-- <h2>YAYY! I love you 💖</h2> -->
             <!--<h3><p style="font-size: 1.5em; color: #e91e63; margin-bottom: 20px;">I love you 💖</p></h3>-->
-            <div class="gif-container">
-                <img src="heart.gif" alt="Celebration GIF">
-            </div>
+            <p class="love-message">
+💌 <strong>Mon bébé chou,</strong> Happy Valentine’s Day my love! 💖<br><br>
+
+This is our <em>second Valentine’s together</em> and I still feel the same excitement, warmth and peace every time I think of you. 🌹✨<br><br>
+
+You came into my life so gently but you changed it so deeply. 💕 You make me want to be better, love better and be more present not just for you but for us. 💑💞<br><br>
+
+Thank you for your patience, your kindness, your laughter and the way you care for me, even when I’m tired, stressed or quiet. 🌸💗<br><br>
+
+I don’t always say things perfectly but my feelings for you are <strong>real and strong</strong>. ❤️ I choose you every day and I’m so grateful that I get to call you mine. 💝<br><br>
+
+I love you <strong>mon bébé chou</strong> today and always. 💘💖
+</p>
+
+            <!-- <div class="gif-container">
+                <img src="heart.gif" alt="Celebration GIF"> 
+            </div> -->
         </div>
     </div>
 
     <script>
-        const yesBtn = document.getElementById('yesBtn');
+        const mainContainer = document.getElementById('mainContainer');
+const yesBtn = document.getElementById('yesBtn');
+const questionSection = document.getElementById('question');
+const celebrationSection = document.getElementById('celebration');
+        // const yesBtn = document.getElementById('yesBtn');
         const noBtn = document.getElementById('noBtn');
         const noPlaceholder = document.getElementById('noPlaceholder');
-        const questionSection = document.getElementById('question');
-        const celebrationSection = document.getElementById('celebration');
+        // const questionSection = document.getElementById('question');
+        // const celebrationSection = document.getElementById('celebration');
         const buttonContainer = document.querySelector('.button-container');
 
         // Handle Yes button click
+        // yesBtn.addEventListener('click', () => {
+        //     questionSection.classList.remove('active');
+        //     questionSection.style.display = 'none';
+        //     celebrationSection.classList.add('active');
+        //     createConfetti();
+        // });
+
         yesBtn.addEventListener('click', () => {
-            questionSection.classList.remove('active');
-            questionSection.style.display = 'none';
-            celebrationSection.classList.add('active');
-            createConfetti();
-        });
+    // hide question
+    questionSection.style.display = 'none';
+    // show paragraph
+    celebrationSection.classList.add('active');
+    // change background
+    mainContainer.classList.add('celebration-bg');
+    createConfetti();
+});
 
         // Position No button on top of placeholder initially
         function positionNoButtonOnPlaceholder() {
